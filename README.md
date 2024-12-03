@@ -17,7 +17,7 @@ This project is a real-time chat application developed with **React**, **TypeScr
 
 1.- Clone the repository
 ```bash
-  git clone https://github.com/tuusuario/proyecto-chat-real-time.git
+  git clone https://github.com/{yourUser}/frontend-chat-graphql.git
 ```
 2.- Navigate to the project folder
 ```bash
