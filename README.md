@@ -21,7 +21,7 @@ This project is a real-time chat application developed with **React**, **TypeScr
 ```
 2.- Navigate to the project folder
 ```bash
-cd proyecto-chat-real-time
+cd frontend-chat-graphql
  ``` 
 3.- Install dependencies
 ```bash
