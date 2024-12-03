@@ -22,6 +22,12 @@ const ChatInputComponent: FC<ChatInputComponentArgs> = ({ onClickSendMessage }) 
     setMessage(value);
   };
 
+  const _handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      _handleSendMessage();
+    }
+  };
+
   return (
     <Box display="flex" alignItems="center" gap={2} mt={2} border={"gray"}>
       <TextField
@@ -29,6 +35,7 @@ const ChatInputComponent: FC<ChatInputComponentArgs> = ({ onClickSendMessage }) 
         value={message}
         onChange={onChangeMessage}
         fullWidth
+        onKeyDown={_handleKeyPress}
         size="small"
       />
 

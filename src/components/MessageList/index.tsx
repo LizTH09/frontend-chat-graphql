@@ -1,7 +1,10 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
-import { FC } from "react";
+import { Box } from "@mui/material";
+import { FC, useEffect, useRef } from "react";
 import MessageComponent from "../Message";
-import { useGetMessagesQuery } from "../../presentation/graphql/generated/graphql";
+import {
+  SendMessageDocument,
+  useGetMessagesQuery,
+} from "../../presentation/graphql/generated/graphql";
 
 interface MessageListArgs {
   chatId: string;
@@ -9,28 +12,50 @@ interface MessageListArgs {
 }
 
 const MessageListComponent: FC<MessageListArgs> = ({ chatId, userId }) => {
+  const chatIdParams = chatId;
 
-  const defaultData = { 
+  const defaultData = {
     _id: "default",
-    avatar: "https://robohash.org/default", 
+    avatar: "https://robohash.org/default",
     email: "default@example.com",
     firstName: "Default",
     lastName: "User",
-    password: "default", 
-  }
+    password: "default",
+  };
 
-  const { data, loading, error } = useGetMessagesQuery({
-    variables: {
-      chatId,
-    },
+  const { data, subscribeToMore, refetch } = useGetMessagesQuery({
+    variables: { chatId },
   });
 
-  if (loading) return <CircularProgress />;
-  if (error) return <Typography color="error">Error: {error.message}</Typography>;
+  const messageContainerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    subscribeToMore({
+      document: SendMessageDocument,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      updateQuery: (prev: any, { subscriptionData }: any) => {
+        const { chatId } = subscriptionData.data.createMessage || {};
+
+        if (String(chatId) === String(chatIdParams)) refetch();
+
+        return prev;
+      },
+      variables: {
+        chatId,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  }, [data?.getMessages]);
 
   return (
     <Box
+      ref={messageContainerRef}
       display="flex"
       flexDirection="column"
       gap={2}
