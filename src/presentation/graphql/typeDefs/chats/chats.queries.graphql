@@ -1,0 +1,7 @@
+query GetChats($userId: ID!) {
+  getChats(userId: $userId) {
+    _id
+    status
+    userIds
+  }
+}

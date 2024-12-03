@@ -1,0 +1,17 @@
+mutation CreateMessage(
+  $content: String
+  $userId: String
+  $chatId: String
+) {
+  createMessage(
+    content: $content
+    userId: $userId
+    chatId: $chatId
+  ) {
+    _id
+    content
+    createdAt
+    userId
+    chatId
+  }
+}

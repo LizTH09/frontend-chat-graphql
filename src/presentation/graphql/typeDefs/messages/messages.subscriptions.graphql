@@ -1,0 +1,9 @@
+subscription sendMessage($chatId: ID!) {
+  createMessage(chatId: $chatId) {
+    _id
+    content
+    createdAt
+    userId
+    chatId
+  }
+}
